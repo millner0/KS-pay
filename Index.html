@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SD Pay - Fast, Easy & Secure Payments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .logo span {
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #219653;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 12px;
+        }
+        
+        .sidebar-menu li a {
+            text-decoration: none;
+            color: #555;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s;
+            padding: 8px 0;
+        }
+        
+        .sidebar-menu li a:hover {
+            color: var(--primary);
+        }
+        
+        .sidebar-menu li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .section-subtitle {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 1px solid #e9ecef;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card i {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .card h3 {
+            font-size: 16px;
+            color: var(--secondary);
+        }
+        
+        .divider {
+            height: 1px;
+            background-color: #eee;
+            margin: 30px 0;
+        }
+        
+        /* Forms */
+        .form-container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--secondary);
+            text-align: center;
+        }
+        
+        .form-subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        
+        .password-requirements {
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .password-requirements ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .password-requirements li {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .password-requirements li i {
+            margin-right: 8px;
+            width: 16px;
+        }
+        
+        .password-requirements .valid {
+            color: var(--success);
+        }
+        
+        .password-requirements .invalid {
+            color: var(--danger);
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--light);
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .social-btn:hover {
+            background-color: #eee;
+        }
+        
+        .social-btn i {
+            font-size: 18px;
+        }
+        
+        .google-btn {
+            color: #db4437;
+        }
+        
+        .facebook-btn {
+            color: #4267B2;
+        }
+        
+        .twitter-btn {
+            color: #1DA1F2;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+        }
+        
+        .form-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        /* Payment Section */
+        .payment-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .qr-container {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        #qrcode {
+            display: inline-block;
+            margin: 0 auto;
+        }
+        
+        .balance-display {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--secondary);
+        }
+        
+        .payment-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .amount-input {
+            font-size: 18px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .upi-id {
+            font-family: monospace;
+            background-color: var(--light);
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 18px;
+        }
+        
+        .transaction-history {
+            margin-top: 30px;
+        }
+        
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        
+        .transaction-amount {
+            font-weight: bold;
+        }
+        
+        .transaction-amount.credit {
+            color: var(--success);
+        }
+        
+        .transaction-amount.debit {
+            color: var(--danger);
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .admin-table th, .admin-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-table th {
+            background-color: var(--light);
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .admin-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #ecf0f1;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links li a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 14px;
+        }
+        
+        /* Hidden sections */
+        .hidden {
+            display: none;
+        }
+        
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--secondary);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            color: var(--secondary);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin: 5px 10px;
+            }
+            
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .admin-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">SD <span>Pay</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showSection('home')">Home</a></li>
+                    <li><a href="#" onclick="showSection('bill-payments')">Bill Payments</a></li>
+                    <li><a href="#" onclick="showSection('recharge')">Recharge</a></li>
+                    <li><a href="#" onclick="showSection('bookings')">Bookings</a></li>
+                    <li><a href="#" onclick="showSection('store')">Store</a></li>
+                    <li><a href="#" onclick="showSection('admin-panel')" id="admin-link" class="hidden">Admin</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons" id="auth-buttons">
+                <button class="btn btn-outline" onclick="showSection('login')">Login</button>
+                <button class="btn btn-primary" onclick="showSection('register')">Sign Up</button>
+            </div>
+            <div class="user-info hidden" id="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <span id="user-name">User</span>
+                <button class="btn btn-outline" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Pay Your Bills Online</h1>
+            <p>It's fast, easy & secure!</p>
+            <button class="btn btn-primary" style="padding: 12px 30px; font-size: 16px;" onclick="showSection('bill-payments')">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h3>My Account</h3>
+                    <ul class="sidebar-menu">
+                        <li><a href="#" onclick="showSection('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="#" onclick="showSection('my-qr')"><i class="fas fa-qrcode"></i> My QR</a></li>
+                        <li><a href="#" onclick="showSection('add-balance')"><i class="fas fa-wallet"></i> Add Balance</a></li>
+                        <li><a href="#" onclick="showSection('sd-to-sd')"><i class="fas fa-exchange-alt"></i> SD to SD</a></li>
+                        <li><a href="#" onclick="showSection('bank-pay')"><i class="fas fa-university"></i> Bank Pay</a></li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3>Quick Links</h3>
+                    <ul class="sidebar-menu">
+                        <li><a href="#" onclick="showSection('my-orders')"><i class="fas fa-shopping-bag"></i> My Orders</a></li>
+                        <li><a href="#" onclick="showSection('chat')"><i class="fas fa-comments"></i> Chat</a></li>
+                        <li><a href="#" onclick="showSection('history')"><i class="fas fa-history"></i> History</a></li>
+                        <li><a href="#" onclick="showSection('store')"><i class="fas fa-store"></i> Store</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Dashboard -->
+            <div class="dashboard" id="dashboard">
+                <h2 class="section-title">Bill Payments</h2>
+                <p class="section-subtitle">Pay your bills quickly and securely</p>
+                
+                <div class="card-grid">
+                    <div class="card" onclick="showSection('electricity-bill')">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Electricity Bill</h3>
+                    </div>
+                    <div class="card" onclick="showSection('mobile-bill')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>Mobile Bill</h3>
+                    </div>
+                    <div class="card" onclick="showSection('gas-bill')">
+                        <i class="fas fa-fire"></i>
+                        <h3>Gas Bill</h3>
+                    </div>
+                    <div class="card" onclick="showSection('landline-bill')">
+                        <i class="fas fa-phone"></i>
+                        <h3>Landline Bill</h3>
+                    </div>
+                    <div class="card" onclick="showSection('water-bill')">
+                        <i class="fas fa-tint"></i>
+                        <h3>Water Bill</h3>
+                    </div>
+                    <div class="card" onclick="showSection('dth-bill')">
+                        <i class="fas fa-tv"></i>
+                        <h3>DTH Bill</h3>
+                    </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <h2 class="section-title">Recharge & Bill Payments</h2>
+                <p class="section-subtitle">My bills ></p>
+                
+                <div class="card-grid">
+                    <div class="card" onclick="showSection('mobile-recharge')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>Mobile</h3>
+                    </div>
+                    <div class="card" onclick="showSection('gas-line')">
+                        <i class="fas fa-fire"></i>
+                        <h3>Gas Line</h3>
+                    </div>
+                    <div class="card" onclick="showSection('electricity')">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Electricity</h3>
+                    </div>
+                    <div class="card" onclick="showSection('broadband')">
+                        <i class="fas fa-wifi"></i>
+                        <h3>Broadband</h3>
+                    </div>
+                    <div class="card" onclick="showSection('municipal')">
+                        <i class="fas fa-city"></i>
+                        <h3>Municipal</h3>
+                    </div>
+                    <div class="card" onclick="showSection('fastag')">
+                        <i class="fas fa-tag"></i>
+                        <h3>Fastag</h3>
+                    </div>
+                    <div class="card" onclick="showSection('insurance')">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Insurance</h3>
+                    </div>
+                    <div class="card" onclick="showSection('more-bills')">
+                        <i class="fas fa-ellipsis-h"></i>
+                        <h3>More</h3>
+                    </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <h2 class="section-title">Book on SD Pay</h2>
+                
+                <div class="card-grid">
+                    <div class="card" onclick="showSection('movie-booking')">
+                        <i class="fas fa-film"></i>
+                        <h3>Movie</h3>
+                    </div>
+                    <div class="card" onclick="showSection('flight-booking')">
+                        <i class="fas fa-plane"></i>
+                        <h3>Flights</h3>
+                    </div>
+                    <div class="card" onclick="showSection('train-booking')">
+                        <i class="fas fa-train"></i>
+                        <h3>Train</h3>
+                    </div>
+                    <div class="card" onclick="showSection('more-bookings')">
+                        <i class="fas fa-ellipsis-h"></i>
+                        <h3>More</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="form-container hidden" id="register">
+        <h2 class="form-title">REGISTER ACCOUNT</h2>
+        <p class="form-subtitle">Customer Register</p>
+        
+        <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" class="form-control" placeholder="Enter your full name">
+        </div>
+        
+        <div class="form-group">
+            <label for="mobileNumber">Mobile Number</label>
+            <input type="tel" id="mobileNumber" class="form-control" placeholder="Enter your mobile number">
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control" placeholder="Enter your email">
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" placeholder="Create a password">
+            
+            <div class="password-requirements">
+                <ul>
+                    <li><i class="fas fa-circle invalid" id="req-digit"></i> At least one digit</li>
+                    <li><i class="fas fa-circle invalid" id="req-lowercase"></i> At least one lowercase letter</li>
+                    <li><i class="fas fa-circle invalid" id="req-uppercase"></i> At least one uppercase letter</li>
+                    <li><i class="fas fa-circle invalid" id="req-special"></i> At least one special character</li>
+                    <li><i class="fas fa-circle invalid" id="req-length"></i> At least 8 characters</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password">
+        </div>
+        
+        <div class="social-login">
+            <div class="social-btn google-btn" onclick="signInWithGoogle()">
+                <i class="fab fa-google"></i>
+            </div>
+            <div class="social-btn facebook-btn" onclick="signInWithFacebook()">
+                <i class="fab fa-facebook-f"></i>
+            </div>
+            <div class="social-btn twitter-btn" onclick="signInWithTwitter()">
+                <i class="fab fa-twitter"></i>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="register()">SIGNUP</button>
+        
+        <div class="form-footer">
+            Already have an account? <a href="#" onclick="showSection('login')">Login here</a>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="form-container hidden" id="login">
+        <h2 class="form-title">LOGIN TO YOUR ACCOUNT</h2>
+        <p class="form-subtitle">Access your SD Pay account</p>
+        
+        <div class="form-group">
+            <label for="loginEmail">Email or Mobile Number</label>
+            <input type="text" id="loginEmail" class="form-control" placeholder="Enter your email or mobile number">
+        </div>
+        
+        <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password">
+        </div>
+        
+        <div class="social-login">
+            <div class="social-btn google-btn" onclick="signInWithGoogle()">
+                <i class="fab fa-google"></i>
+            </div>
+            <div class="social-btn facebook-btn" onclick="signInWithFacebook()">
+                <i class="fab fa-facebook-f"></i>
+            </div>
+            <div class="social-btn twitter-btn" onclick="signInWithTwitter()">
+                <i class="fab fa-twitter"></i>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="login()">LOGIN</button>
+        
+        <div class="form-footer">
+            Don't have an account? <a href="#" onclick="showSection('register')">Sign up here</a>
+        </div>
+    </div>
+
+    <!-- My QR Section -->
+    <div class="container hidden" id="my-qr">
+        <div class="payment-section">
+            <h2 class="section-title">My QR Code</h2>
+            <p class="section-subtitle">Scan this QR code to receive payments</p>
+            
+            <div class="qr-container">
+                <div id="qrcode"></div>
+                <p class="upi-id" id="upi-id-display">user@sdpay</p>
+                <p>Share this QR code to receive payments instantly</p>
+            </div>
+            
+            <div class="balance-display">
+                Your Balance: ₹<span id="user-balance">0</span>
+            </div>
+            
+            <div class="transaction-history">
+                <h3>Recent Transactions</h3>
+                <div id="transaction-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Balance Section -->
+    <div class="container hidden" id="add-balance">
+        <div class="payment-section">
+            <h2 class="section-title">Add Balance</h2>
+            <p class="section-subtitle">Add money to your SD Pay wallet</p>
+            
+            <div class="payment-form">
+                <div class="form-group">
+                    <label for="add-amount">Amount</label>
+                    <input type="number" id="add-amount" class="form-control amount-input" placeholder="Enter amount" min="1">
+                </div>
+                
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button class="btn btn-outline" onclick="selectPaymentMethod('upi')">UPI</button>
+                        <button class="btn btn-outline" onclick="selectPaymentMethod('card')">Credit/Debit Card</button>
+                        <button class="btn btn-outline" onclick="selectPaymentMethod('netbanking')">Net Banking</button>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 20px;" onclick="addBalance()">Add Money</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SD to SD Transfer Section -->
+    <div class="container hidden" id="sd-to-sd">
+        <div class="payment-section">
+            <h2 class="section-title">SD to SD Transfer</h2>
+            <p class="section-subtitle">Send money to another SD Pay user</p>
+            
+            <div class="payment-form">
+                <div class="form-group">
+                    <label for="recipient">Recipient's Mobile or UPI ID</label>
+                    <input type="text" id="recipient" class="form-control" placeholder="Enter mobile number or UPI ID">
+                </div>
+                
+                <div class="form-group">
+                    <label for="transfer-amount">Amount</label>
+                    <input type="number" id="transfer-amount" class="form-control amount-input" placeholder="Enter amount" min="1">
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="transferMoney()">Send Money</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bill Payment Section -->
+    <div class="container hidden" id="electricity-bill">
+        <div class="payment-section">
+            <h2 class="section-title">Electricity Bill Payment</h2>
+            <p class="section-subtitle">Pay your electricity bill</p>
+            
+            <div class="payment-form">
+                <div class="form-group">
+                    <label for="consumer-id">Consumer ID</label>
+                    <input type="text" id="consumer-id" class="form-control" placeholder="Enter your consumer ID">
+                </div>
+                
+                <div class="form-group">
+                    <label for="bill-amount">Bill Amount</label>
+                    <input type="number" id="bill-amount" class="form-control amount-input" placeholder="Enter bill amount" min="1">
+                </div>
+                
+                <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="payBill('electricity')">Pay Bill</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="container hidden" id="admin-panel">
+        <div class="admin-panel">
+            <h2 class="section-title">Admin Dashboard</h2>
+            <p class="section-subtitle">Manage users, transactions, and platform settings</p>
+            
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3>Total Users</h3>
+                    <div class="value" id="total-users">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Transactions</h3>
+                    <div class="value" id="total-transactions">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Revenue</h3>
+                    <div class="value">₹<span id="total-revenue">0</span></div>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Today</h3>
+                    <div class="value" id="active-today">0</div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <h3>Recent Transactions</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-transactions">
+                    <!-- Transactions will be populated here -->
+                </tbody>
+            </table>
+            
+            <div class="divider"></div>
+            
+            <h3>User Management</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Balance</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-users">
+                    <!-- Users will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-column">
+                    <h3>SD Pay</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Bill Payments</a></li>
+                        <li><a href="#">Recharge</a></li>
+                        <li><a href="#">Bookings</a></li>
+                        <li><a href="#">Money Transfer</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Help & Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="https://wa.me/message/XN5KY75ETTEAF1" target="_blank">WhatsApp Support</a></li>
+                        <li><a href="https://t.me/Kaitoreignx" target="_blank">Telegram Support</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Download App</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fab fa-google-play"></i> Google Play</a></li>
+                        <li><a href="#"><i class="fab fa-apple"></i> App Store</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 SD Pay. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="payment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="payment-modal-title">Complete Payment</h3>
+                <button class="close-modal" onclick="closeModal('payment-modal')">&times;</button>
+            </div>
+            <div id="payment-modal-content">
+                <!-- Payment content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User data storage
+        let users = JSON.parse(localStorage.getItem('sdpay_users')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('sdpay_current_user')) || null;
+        let transactions = JSON.parse(localStorage.getItem('sdpay_transactions')) || [];
+        let adminUser = { email: "admin@sdpay.com", password: "Admin123!", isAdmin: true };
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add admin user if not exists
+            if (!users.find(u => u.email === adminUser.email)) {
+                users.push({
+                    id: "admin",
+                    name: "SD Pay Admin",
+                    mobile: "0000000000",
+                    email: adminUser.email,
+                    password: adminUser.password,
+                    balance: 0,
+                    upiId: "admin@sdpay",
+                    isAdmin: true
+                });
+                localStorage.setItem('sdpay_users', JSON.stringify(users));
+            }
+            
+            if (currentUser) {
+                showUserSection();
+            } else {
+                showSection('home');
+            }
+            generateQRCode();
+        });
+
+        // Show specific section and hide others
+        function showSection(sectionId) {
+            // Hide all main sections
+            document.querySelectorAll('.main-content, .form-container, .hero, .container > .payment-section, .container > .admin-panel').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show the selected section
+            if (sectionId === 'home') {
+                document.getElementById('home').classList.remove('hidden');
+                if (currentUser) {
+                    document.querySelector('.main-content').classList.remove('hidden');
+                }
+            } else if (sectionId === 'register') {
+                document.getElementById('register').classList.remove('hidden');
+            } else if (sectionId === 'login') {
+                document.getElementById('login').classList.remove('hidden');
+            } else if (sectionId === 'my-qr') {
+                document.getElementById('my-qr').classList.remove('hidden');
+                generateQRCode();
+                loadTransactionHistory();
+            } else if (sectionId === 'add-balance') {
+                document.getElementById('add-balance').classList.remove('hidden');
+            } else if (sectionId === 'sd-to-sd') {
+                document.getElementById('sd-to-sd').classList.remove('hidden');
+            } else if (sectionId === 'electricity-bill') {
+                document.getElementById('electricity-bill').classList.remove('hidden');
+            } else if (sectionId === 'admin-panel') {
+                if (currentUser && currentUser.isAdmin) {
+                    document.getElementById('admin-panel').classList.remove('hidden');
+                    loadAdminData();
+                } else {
+                    showToast('Access denied. Admin only.', 'error');
+                    showSection('dashboard');
+                }
+            } else {
+                if (currentUser) {
+                    document.querySelector('.main-content').classList.remove('hidden');
+                } else {
+                    showSection('login');
+                    return;
+                }
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Show user section after login
+        function showUserSection() {
+            document.getElementById('auth-buttons').classList.add('hidden');
+            document.getElementById('user-info').classList.remove('hidden');
+            document.getElementById('user-name').textContent = currentUser.name;
+            document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('user-balance').textContent = currentUser.balance || 0;
+            
+            // Show admin link if user is admin
+            if (currentUser.isAdmin) {
+                document.getElementById('admin-link').classList.remove('hidden');
+            }
+            
+            showSection('dashboard');
+        }
+
+        // Password validation
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const requirements = {
+                digit: /\d/,
+                lowercase: /[a-z]/,
+                uppercase: /[A-Z]/,
+                special: /[!@#$%^&*(),.?":{}|<>]/,
+                length: /.{8,}/
+            };
+            
+            // Update requirement indicators
+            document.getElementById('req-digit').className = requirements.digit.test(password) ? 'fas fa-circle valid' : 'fas fa-circle invalid';
+            document.getElementById('req-lowercase').className = requirements.lowercase.test(password) ? 'fas fa-circle valid' : 'fas fa-circle invalid';
+            document.getElementById('req-uppercase').className = requirements.uppercase.test(password) ? 'fas fa-circle valid' : 'fas fa-circle invalid';
+            document.getElementById('req-special').className = requirements.special.test(password) ? 'fas fa-circle valid' : 'fas fa-circle invalid';
+            document.getElementById('req-length').className = requirements.length.test(password) ? 'fas fa-circle valid' : 'fas fa-circle invalid';
+        });
+
+        // Registration function
+        function register() {
+            const fullName = document.getElementById('fullName').value;
+            const mobileNumber = document.getElementById('mobileNumber').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!fullName || !mobileNumber || !email || !password || !confirmPassword) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showToast('Passwords do not match', 'error');
+                return;
+            }
+            
+            // Check if user already exists
+            if (users.find(user => user.email === email)) {
+                showToast('User with this email already exists', 'error');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: Date.now().toString(),
+                name: fullName,
+                mobile: mobileNumber,
+                email: email,
+                password: password,
+                balance: 0,
+                upiId: `${mobileNumber}@sdpay`,
+                isAdmin: false
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('sdpay_users', JSON.stringify(users));
+            
+            showToast('Registration successful! You can now login.', 'success');
+            showSection('login');
+        }
+
+        // Login function
+        function login() {
+            const loginEmail = document.getElementById('loginEmail').value;
+            const loginPassword = document.getElementById('loginPassword').value;
+            
+            if (!loginEmail || !loginPassword) {
+                showToast('Please enter your credentials', 'error');
+                return;
+            }
+            
+            // Check for admin login
+            if (loginEmail === adminUser.email && loginPassword === adminUser.password) {
+                currentUser = {
+                    id: "admin",
+                    name: "SD Pay Admin",
+                    email: adminUser.email,
+                    isAdmin: true
+                };
+                localStorage.setItem('sdpay_current_user', JSON.stringify(currentUser));
+                showToast('Admin login successful!', 'success');
+                showUserSection();
+                return;
+            }
+            
+            // Find user
+            const user = users.find(u => u.email === loginEmail || u.mobile === loginEmail);
+            
+            if (!user || user.password !== loginPassword) {
+                showToast('Invalid email/mobile or password', 'error');
+                return;
+            }
+            
+            // Login successful
+            currentUser = user;
+            localStorage.setItem('sdpay_current_user', JSON.stringify(currentUser));
+            
+            showToast('Login successful!', 'success');
+            showUserSection();
+        }
+
+        // Logout function
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('sdpay_current_user');
+            
+            document.getElementById('auth-buttons').classList.remove('hidden');
+            document.getElementById('user-info').classList.add('hidden');
+            document.getElementById('admin-link').classList.add('hidden');
+            
+            showToast('Logged out successfully', 'success');
+            showSection('home');
+        }
+
+        // Generate QR Code
+        function generateQRCode() {
+            if (!currentUser) return;
+            
+            const upiString = `upi://pay?pa=${currentUser.upiId}&pn=${currentUser.name}&am=&cu=INR`;
+            const qrcodeElement = document.getElementById('qrcode');
+            qrcodeElement.innerHTML = '';
+            
+            QRCode.toCanvas(qrcodeElement, upiString, { width: 200 }, function(error) {
+                if (error) console.error(error);
+            });
+            
+            document.getElementById('upi-id-display').textContent = currentUser.upiId;
+        }
+
+        // Add balance to wallet
+        function addBalance() {
+            const amount = parseInt(document.getElementById('add-amount').value);
+            
+            if (!amount || amount < 1) {
+                showToast('Please enter a valid amount', 'error');
+                return;
+            }
+            
+            // Update user balance
+            currentUser.balance = (currentUser.balance || 0) + amount;
+            updateUserData();
+            
+            // Add transaction
+            addTransaction('Credit', amount, 'Wallet Top-up');
+            
+            showToast(`₹${amount} added to your wallet successfully`, 'success');
+            document.getElementById('add-amount').value = '';
+            document.getElementById('user-balance').textContent = currentUser.balance;
+            loadTransactionHistory();
+        }
+
+        // Transfer money to another user
+        function transferMoney() {
+            const recipient = document.getElementById('recipient').value;
+            const amount = parseInt(document.getElementById('transfer-amount').value);
+            
+            if (!recipient || !amount || amount < 1) {
+                showToast('Please enter valid recipient and amount', 'error');
+                return;
+            }
+            
+            if (amount > currentUser.balance) {
+                showToast('Insufficient balance', 'error');
+                return;
+            }
+            
+            // Find recipient
+            const recipientUser = users.find(u => u.mobile === recipient || u.upiId === recipient);
+            
+            if (!recipientUser) {
+                showToast('Recipient not found', 'error');
+                return;
+            }
+            
+            if (recipientUser.id === currentUser.id) {
+                showToast('Cannot transfer to yourself', 'error');
+                return;
+            }
+            
+            // Update balances
+            currentUser.balance -= amount;
+            recipientUser.balance = (recipientUser.balance || 0) + amount;
+            
+            // Update users in storage
+            updateUserData();
+            const userIndex = users.findIndex(u => u.id === recipientUser.id);
+            if (userIndex !== -1) {
+                users[userIndex] = recipientUser;
+                localStorage.setItem('sdpay_users', JSON.stringify(users));
+            }
+            
+            // Add transaction
+            addTransaction('Debit', amount, `Transfer to ${recipientUser.name}`);
+            
+            showToast(`₹${amount} transferred to ${recipientUser.name} successfully`, 'success');
+            document.getElementById('recipient').value = '';
+            document.getElementById('transfer-amount').value = '';
+            document.getElementById('user-balance').textContent = currentUser.balance;
+            loadTransactionHistory();
+        }
+
+        // Pay bill
+        function payBill(billType) {
+            const consumerId = document.getElementById('consumer-id').value;
+            const amount = parseInt(document.getElementById('bill-amount').value);
+            
+            if (!consumerId || !amount || amount < 1) {
+                showToast('Please enter valid consumer ID and amount', 'error');
+                return;
+            }
+            
+            if (amount > currentUser.balance) {
+                showToast('Insufficient balance', 'error');
+                return;
+            }
+            
+            // Update user balance
+            currentUser.balance -= amount;
+            updateUserData();
+            
+            // Add transaction
+            addTransaction('Debit', amount, `${billType.charAt(0).toUpperCase() + billType.slice(1)} Bill Payment`);
+            
+            showToast(`₹${amount} paid for ${billType} bill successfully`, 'success');
+            document.getElementById('consumer-id').value = '';
+            document.getElementById('bill-amount').value = '';
+            document.getElementById('user-balance').textContent = currentUser.balance;
+            loadTransactionHistory();
+        }
+
+        // Update user data in storage
+        function updateUserData() {
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                users[userIndex] = currentUser;
+                localStorage.setItem('sdpay_users', JSON.stringify(users));
+                localStorage.setItem('sdpay_current_user', JSON.stringify(currentUser));
+            }
+        }
+
+        // Add transaction to history
+        function addTransaction(type, amount, description) {
+            const transaction = {
+                id: Date.now().toString(),
+                userId: currentUser.id,
+                userName: currentUser.name,
+                type: type,
+                amount: amount,
+                description: description,
+                date: new Date().toISOString()
+            };
+            
+            transactions.push(transaction);
+            localStorage.setItem('sdpay_transactions', JSON.stringify(transactions));
+        }
+
+        // Load transaction history
+        function loadTransactionHistory() {
+            const transactionList = document.getElementById('transaction-list');
+            transactionList.innerHTML = '';
+            
+            const userTransactions = transactions
+                .filter(t => t.userId === currentUser.id)
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 10);
+            
+            if (userTransactions.length === 0) {
+                transactionList.innerHTML = '<p>No transactions yet</p>';
+                return;
+            }
+            
+            userTransactions.forEach(transaction => {
+                const transactionElement = document.createElement('div');
+                transactionElement.className = 'transaction-item';
+                
+                const date = new Date(transaction.date).toLocaleDateString();
+                
+                transactionElement.innerHTML = `
+                    <div>
+                        <div>${transaction.description}</div>
+                        <small>${date}</small>
+                    </div>
+                    <div class="transaction-amount ${transaction.type.toLowerCase()}">
+                        ${transaction.type === 'Credit' ? '+' : '-'}₹${transaction.amount}
+                    </div>
+                `;
+                
+                transactionList.appendChild(transactionElement);
+            });
+        }
+
+        // Load admin data
+        function loadAdminData() {
+            // Update stats
+            document.getElementById('total-users').textContent = users.filter(u => !u.isAdmin).length;
+            document.getElementById('total-transactions').textContent = transactions.length;
+            
+            const revenue = transactions
+                .filter(t => t.type === 'Debit')
+                .reduce((sum, t) => sum + t.amount, 0);
+            document.getElementById('total-revenue').textContent = revenue;
+            
+            const today = new Date().toDateString();
+            const activeToday = users.filter(u => {
+                // This is a simplified check - in a real app you'd track login dates
+                return !u.isAdmin;
+            }).length;
+            document.getElementById('active-today').textContent = activeToday;
+            
+            // Load recent transactions
+            const adminTransactions = document.getElementById('admin-transactions');
+            adminTransactions.innerHTML = '';
+            
+            const recentTransactions = transactions
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(0, 10);
+            
+            recentTransactions.forEach(transaction => {
+                const row = document.createElement('tr');
+                const date = new Date(transaction.date).toLocaleDateString();
+                
+                row.innerHTML = `
+                    <td>${transaction.id.slice(-6)}</td>
+                    <td>${transaction.userName}</td>
+                    <td>${transaction.type}</td>
+                    <td>₹${transaction.amount}</td>
+                    <td>${date}</td>
+                `;
+                
+                adminTransactions.appendChild(row);
+            });
+            
+            // Load users
+            const adminUsers = document.getElementById('admin-users');
+            adminUsers.innerHTML = '';
+            
+            users.filter(u => !u.isAdmin).forEach(user => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.mobile}</td>
+                    <td>₹${user.balance || 0}</td>
+                    <td>
+                        <button class="btn btn-outline" onclick="editUser('${user.id}')">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteUser('${user.id}')">Delete</button>
+                    </td>
+                `;
+                
+                adminUsers.appendChild(row);
+            });
+        }
+
+        // Select payment method
+        function selectPaymentMethod(method) {
+            showToast(`${method.toUpperCase()} selected for payment`, 'info');
+        }
+
+        // Social login functions
+        function signInWithGoogle() {
+            showToast('Google sign-in would be implemented here', 'info');
+        }
+        
+        function signInWithFacebook() {
+            showToast('Facebook sign-in would be implemented here', 'info');
+        }
+        
+        function signInWithTwitter() {
+            showToast('Twitter sign-in would be implemented here', 'info');
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // Admin functions
+        function editUser(userId) {
+            showToast(`Edit user ${userId}`, 'info');
+        }
+        
+        function deleteUser(userId) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                users = users.filter(u => u.id !== userId);
+                localStorage.setItem('sdpay_users', JSON.stringify(users));
+                loadAdminData();
+                showToast('User deleted successfully', 'success');
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            
+            // Set background color based on type
+            if (type === 'error') {
+                toast.style.backgroundColor = 'var(--danger)';
+            } else if (type === 'success') {
+                toast.style.backgroundColor = 'var(--success)';
+            } else {
+                toast.style.backgroundColor = 'var(--primary)';
+            }
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
